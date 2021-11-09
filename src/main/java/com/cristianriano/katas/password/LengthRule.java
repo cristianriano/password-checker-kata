@@ -4,7 +4,7 @@ class LengthRule implements Rule {
 
   private final int maxSize;
 
-  LengthRule(int maxSize) {
+  LengthRule(final int maxSize) {
     this.maxSize = maxSize;
   }
 

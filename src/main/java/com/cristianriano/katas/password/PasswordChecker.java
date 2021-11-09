@@ -17,7 +17,8 @@ public class PasswordChecker {
 
   PasswordChecker() {
     this.rules = List.of(
-        new LengthRule(7)
+        new LengthRule(7),
+        new LetterRule()
     );
   }
 
