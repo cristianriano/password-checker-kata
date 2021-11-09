@@ -8,7 +8,7 @@ class PasswordCheckerTest {
   private final PasswordChecker passwordChecker = new PasswordChecker();
 
   @Test
-  void check() {
+  void check_whenLessThan7_shouldReturnFalse() {
     assertEquals(passwordChecker.check("any"), false);
   }
 }
