@@ -5,20 +5,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class PasswordCheckerTest {
-  private final PasswordChecker passwordChecker = new PasswordChecker();
 
   @Test
-  void check_whenLessThan7_shouldReturnFalse() {
-    assertEquals(passwordChecker.check("any"), false);
+  void check_lengthRule() {
+    var passwordChecker = new PasswordChecker(new LengthRule(7));
+    assertFalse(passwordChecker.check("any"));
   }
 
   @Test
-  void check_whenNoLetters_shouldReturnFalse() {
-    assertEquals(passwordChecker.check("123"), false);
+  void check_letterRule() {
+    var passwordChecker = new PasswordChecker(new LetterRule());
+    assertFalse(passwordChecker.check("123"));
   }
 
   @Test
-  void check_whenValidPassword_shouldReturnTrue() {
-    assertEquals(passwordChecker.check("a234567"), true);
+  void check_validPassword() {
+    var passwordChecker = PasswordChecker.getInstance();
+    assertTrue(passwordChecker.check("a234567"));
   }
 }

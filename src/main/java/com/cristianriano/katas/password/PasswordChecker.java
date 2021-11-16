@@ -1,5 +1,6 @@
 package com.cristianriano.katas.password;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class PasswordChecker {
@@ -11,12 +12,12 @@ public class PasswordChecker {
     return INSTANCE;
   }
 
-  PasswordChecker(List<Rule> rules) {
-    this.rules = rules;
+  PasswordChecker(final Rule... rules) {
+    this.rules = Arrays.asList(rules);
   }
 
   PasswordChecker() {
-    this.rules = List.of(
+    this(
         new LengthRule(7),
         new LetterRule()
     );
