@@ -19,7 +19,8 @@ public class PasswordChecker {
   PasswordChecker() {
     this(
         new LengthRule(7),
-        new LetterRule()
+        new LetterRule(),
+        new DigitRule()
     );
   }
 
@@ -30,5 +31,9 @@ public class PasswordChecker {
       }
     }
     return true;
+  }
+
+  List<Rule> getRules() {
+    return rules;
   }
 }

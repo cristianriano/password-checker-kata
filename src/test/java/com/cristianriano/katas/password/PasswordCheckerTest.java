@@ -19,6 +19,12 @@ class PasswordCheckerTest {
   }
 
   @Test
+  void check_digitRule() {
+    var passwordChecker = new PasswordChecker(new DigitRule());
+    assertFalse(passwordChecker.check("abc"));
+  }
+
+  @Test
   void check_validPassword() {
     var passwordChecker = PasswordChecker.getInstance();
     assertTrue(passwordChecker.check("a234567"));
