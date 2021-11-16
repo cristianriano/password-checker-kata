@@ -12,11 +12,13 @@ class PasswordCheckerTest {
     assertEquals(passwordChecker.check("any"), false);
   }
 
+  @Test
   void check_whenNoLetters_shouldReturnFalse() {
     assertEquals(passwordChecker.check("123"), false);
   }
 
+  @Test
   void check_whenValidPassword_shouldReturnTrue() {
-    assertEquals(passwordChecker.check("a23456"), true);
+    assertEquals(passwordChecker.check("a234567"), true);
   }
 }

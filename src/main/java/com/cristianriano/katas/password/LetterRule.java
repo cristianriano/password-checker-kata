@@ -7,6 +7,6 @@ public class LetterRule implements Rule {
 
   @Override
   public boolean isValid(final String password) {
-    return LETTERS.matcher(password).matches();
+    return LETTERS.matcher(password).find();
   }
 }
