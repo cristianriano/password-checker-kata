@@ -1,7 +1,9 @@
 package com.cristianriano.katas.password;
 
 import java.util.regex.Pattern;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class LetterRule implements Rule {
   private static final Pattern LETTERS = Pattern.compile("[a-zA-Z]");
 

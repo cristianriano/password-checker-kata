@@ -1,5 +1,8 @@
 package com.cristianriano.katas.password;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 class LengthRule implements Rule {
 
   private final int maxSize;
