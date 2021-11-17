@@ -30,12 +30,8 @@ public class PasswordChecker {
   }
 
   public boolean check(final String password) {
-    for(Rule r : rules) {
-      if(!r.isValid(password)) {
-        return false;
-      }
-    }
-    return true;
+    return rules.stream()
+        .allMatch(r -> r.isValid(password));
   }
 
   List<Rule> getRules() {
