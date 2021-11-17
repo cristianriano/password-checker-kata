@@ -15,4 +15,9 @@ class LengthRule implements Rule {
   public boolean isValid(final String password) {
     return password.length() >= maxSize;
   }
+
+  @Override
+  public String getErrorMessage() {
+    return String.format("The passwords must be at least %s chars long", maxSize);
+  }
 }

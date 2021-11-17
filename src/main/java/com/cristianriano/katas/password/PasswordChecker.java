@@ -2,6 +2,7 @@ package com.cristianriano.katas.password;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PasswordChecker {
   private final List<Rule> rules;
@@ -32,6 +33,13 @@ public class PasswordChecker {
   public boolean check(final String password) {
     return rules.stream()
         .allMatch(r -> r.isValid(password));
+  }
+
+  public List<String> getInvalidReasons(final String password) {
+    return rules.stream()
+        .filter(r -> !r.isValid(password))
+        .map(Rule::getErrorMessage)
+        .collect(Collectors.toUnmodifiableList());
   }
 
   List<Rule> getRules() {

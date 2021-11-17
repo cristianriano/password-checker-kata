@@ -11,4 +11,9 @@ public class DigitRule implements Rule {
   public boolean isValid(final String password) {
     return DIGIT.matcher(password).find();
   }
+
+  @Override
+  public String getErrorMessage() {
+    return "The passwords requires at least 1 digit";
+  }
 }

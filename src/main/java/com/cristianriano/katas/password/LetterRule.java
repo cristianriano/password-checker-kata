@@ -11,4 +11,9 @@ public class LetterRule implements Rule {
   public boolean isValid(final String password) {
     return LETTERS.matcher(password).find();
   }
+
+  @Override
+  public String getErrorMessage() {
+    return "The passwords requires at least 1 letter";
+  }
 }
