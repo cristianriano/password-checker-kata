@@ -2,37 +2,71 @@ package com.cristianriano.katas.password;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class PasswordCheckerTest {
 
   @ParameterizedTest
-  @ValueSource(strings = {"any", "", "123456", " "})
-  void check_lengthRule(String password) {
+  @MethodSource
+  void check_lengthRule(String password, boolean isValid) {
     var passwordChecker = new PasswordChecker(new LengthRule(7));
-    assertThat(passwordChecker.check(password)).isFalse();
+    assertThat(passwordChecker.check(password)).isEqualTo(isValid);
+  }
+
+  private static Stream<Arguments> check_lengthRule() {
+    return Stream.of(
+        Arguments.of("", false),
+        Arguments.of("123456", false),
+        Arguments.of("abc", false),
+        Arguments.of("1234567", true),
+        Arguments.of("abcdefg", true)
+    );
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"", " ", "123", "!@#"})
-  void check_letterRule(String password) {
+  @MethodSource
+  void check_letterRule(String password, boolean isValid) {
     var passwordChecker = new PasswordChecker(new LetterRule());
-    assertThat(passwordChecker.check(password)).isFalse();
+    assertThat(passwordChecker.check(password)).isEqualTo(isValid);
+  }
+
+  private static Stream<Arguments> check_letterRule() {
+    return Stream.of(
+        Arguments.of("", false),
+        Arguments.of("!@# ", false),
+        Arguments.of("123", false),
+        Arguments.of("a", true),
+        Arguments.of("12a", true)
+    );
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"", " ", "abc", "!@#"})
-  void check_digitRule(String password) {
+  @MethodSource
+  void check_digitRule(String password, boolean isValid) {
     var passwordChecker = new PasswordChecker(new DigitRule());
-    assertThat(passwordChecker.check(password)).isFalse();
+    assertThat(passwordChecker.check(password)).isEqualTo(isValid);
   }
 
-  @Test
-  void check_validPassword() {
+  private static Stream<Arguments> check_digitRule() {
+    return Stream.of(
+        Arguments.of("", false),
+        Arguments.of("!@# ", false),
+        Arguments.of("abc", false),
+        Arguments.of("1", true),
+        Arguments.of("ab3", true)
+    );
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"a234567", "!@ []a1", "p@ssw0rd"})
+  void check_validPassword(String password) {
     var passwordChecker = PasswordChecker.getInstance();
-    assertThat(passwordChecker.check("a234567")).isTrue();
+    assertThat(passwordChecker.check(password)).isTrue();
   }
 
   @Test
