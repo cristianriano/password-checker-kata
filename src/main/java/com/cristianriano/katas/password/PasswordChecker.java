@@ -6,22 +6,27 @@ import java.util.List;
 public class PasswordChecker {
   private final List<Rule> rules;
 
-  private static final PasswordChecker INSTANCE = new PasswordChecker();
+  private static final PasswordChecker DEFAULT_CHECKER = new PasswordChecker(
+      new LengthRule(7),
+      new LetterRule(),
+      new DigitRule()
+  );
 
-  public static PasswordChecker getInstance() {
-    return INSTANCE;
+  private static final PasswordChecker ADMIN_CHECKER = new PasswordChecker(
+      new LengthRule(10),
+      new SpecialCharRule()
+  );
+
+  public static PasswordChecker getDefault() {
+    return DEFAULT_CHECKER;
+  }
+
+  public static PasswordChecker getAdminChecker() {
+    return ADMIN_CHECKER;
   }
 
   PasswordChecker(final Rule... rules) {
     this.rules = Arrays.asList(rules);
-  }
-
-  PasswordChecker() {
-    this(
-        new LengthRule(7),
-        new LetterRule(),
-        new DigitRule()
-    );
   }
 
   public boolean check(final String password) {

@@ -63,15 +63,45 @@ class PasswordCheckerTest {
   }
 
   @ParameterizedTest
+  @MethodSource
+  void check_specialCharRule(String password, boolean isValid) {
+    var passwordChecker = new PasswordChecker(new SpecialCharRule());
+    assertThat(passwordChecker.check(password)).isEqualTo(isValid);
+  }
+
+  private static Stream<Arguments> check_specialCharRule() {
+    return Stream.of(
+        Arguments.of("", false),
+        Arguments.of("abc", false),
+        Arguments.of("123", false),
+        Arguments.of("!", true),
+        Arguments.of("as#", true)
+    );
+  }
+
+  @ParameterizedTest
   @ValueSource(strings = {"a234567", "!@ []a1", "p@ssw0rd"})
   void check_validPassword(String password) {
-    var passwordChecker = PasswordChecker.getInstance();
+    var passwordChecker = PasswordChecker.getDefault();
+    assertThat(passwordChecker.check(password)).isTrue();
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"!!!!!!!!!!", "123456789$"})
+  void check_validAdminPassword(String password) {
+    var passwordChecker = PasswordChecker.getAdminChecker();
     assertThat(passwordChecker.check(password)).isTrue();
   }
 
   @Test
   void passwordChecker_hasDefaultRules() {
-    var rules = PasswordChecker.getInstance().getRules();
+    var rules = PasswordChecker.getDefault().getRules();
     assertThat(rules).containsOnly(new DigitRule(), new LetterRule(), new LengthRule(7));
+  }
+
+  @Test
+  void adminPasswordChecker_hasDefaultRules() {
+    var rules = PasswordChecker.getAdminChecker().getRules();
+    assertThat(rules).containsOnly(new LengthRule(10), new SpecialCharRule());
   }
 }
